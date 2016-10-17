@@ -48,6 +48,7 @@ PSQL_OUTPUT=$(psql notification_api << EOF
     delete from notification_history;
     delete from notifications;
     delete from jobs;
+    delete from api_keys a where a.service_id in (select s.id from services s where s.created_by_id in (select u.id from users u where u.email_address like '$EMAIL%'));
     delete from templates_history t where t.service_id in (select s.id from services s where s.created_by_id in (select u.id from users u where u.email_address like '$EMAIL%'));
     delete from templates t where t.service_id in (select s.id from services s where s.created_by_id in (select u.id from users u where u.email_address like '$EMAIL%'));
     delete from user_to_service p where p.user_id in (select u.id from users u where u.email_address like '$EMAIL%');
